@@ -45,12 +45,51 @@ Abra o terminal na pasta raiz do projeto e restaure as dependências:
 ```bash
 dotnet restore
 dotnet build
+```
+### Passo 2: Iniciar a API (Backend)
+No terminal, execute o projeto da API:
+```Bash
+dotnet run --project ApiEstoque
+```
+Aguarde aparecer a mensagem: Now listening on: http://localhost:XXXX 
+Nota: Anote a porta que aparecer (ex: 5000, 5123). Se for diferente da configurada na GUI, atualize o arquivo GuiEstoque/Services/ProdutoService.cs.
 
-Passo 2: Iniciar a API (Backend)No terminal, execute o projeto da API:Bashdotnet run --project ApiEstoque
-Aguarde aparecer a mensagem: Now listening on: http://localhost:XXXXNota: Anote a porta que aparecer (ex: 5000, 5123). Se for diferente da configurada na GUI, atualize o arquivo GuiEstoque/Services/ProdutoService.cs.Passo 3: Iniciar a Interface (Frontend)Abra um novo terminal (mantenha o da API aberto) e execute:Bashdotnet run --project GuiEstoque
-📚 Documentação da APIEntidadesCategoria (Seed Inicial: 1=Hardware, 2=Periféricos, 3=Software)Id (int)Nome (string)ProdutoId (int)Nome (string, obrigatório)Preco (decimal)CategoriaId (int, FK)Endpoints (Rotas)MétodoRotaDescriçãoGET/api/produtosLista todos os produtos (inclui dados da Categoria).GET/api/produtos/{id}Busca um produto específico pelo ID.POST/api/produtosCria um novo produto. Ex Body: {"nome": "Mouse", "preco": 50.0, "categoriaId": 2}DELETE/api/produtos/{id}Remove um produto do banco.🗄️ Banco de Dados (Migrations)O projeto está configurado para criar o banco (app.db) automaticamente ao iniciar. Caso queira gerenciar as migrations manualmente:Bash# Criar a migration inicial
+
+### Passo 3: Iniciar a Interface (Frontend) 
+Abra um novo terminal (mantenha o da API aberto) e execute: 
+```Bash 
+dotnet run --project GuiEstoque
+```
+### 📚 Documentação da APIEntidades
+**Categoria** (Seed Inicial: 1=Hardware, 2=Periféricos, 3=Software)
+*Id* (int)
+*Nome* (string)
+
+**Produto**
+*Id* (int)
+*Nome* (string, obrigatório)
+*Preco* (decimal)
+*CategoriaId* (int, FK)
+
+**Endpoints** 
+*(Método,Rota,Descrição)*
+```bash
+GET,/api/produtos,Lista todos os produtos (inclui dados da Categoria).
+GET,/api/produtos/{id},Busca um produto específico pelo ID.
+POST,/api/produtos,"Cria um novo produto. Ex Body: {""nome"": ""Mouse"", ""preco"": 50.0, ""categoriaId"": 2}"
+DELETE,/api/produtos/{id},Remove um produto do banco.
+```
+# 🗄️ Banco de Dados (Migrations)
+O projeto está configurado para criar o banco (app.db) automaticamente ao iniciar. Caso queira gerenciar as migrations manualmente:
+```bash
+# Criar a migration inicial
 dotnet ef migrations add InitialCreate --project ApiEstoque
 
 # Aplicar ao banco
 dotnet ef database update --project ApiEstoque
-🧪 Como Testar (Passo a Passo)Cadastro: Na interface, preencha "Nome", "Preço" e escolha uma Categoria (1, 2 ou 3). Clique em "CADASTRAR".Listagem: O produto aparecerá automaticamente na tabela à direita com a etiqueta da categoria.Validação: Tente cadastrar uma categoria inexistente (ex: 99). O sistema exibirá um alerta de erro vindo da API.Exclusão: Selecione uma linha na tabela e clique em "Excluir Item".
+```
+###🧪 Como Testar (Passo a Passo)
+**1.** Cadastro: Na interface, preencha "Nome", "Preço" e escolha uma Categoria (1, 2 ou 3). Clique em "CADASTRAR".
+**2.** Listagem: O produto aparecerá automaticamente na tabela à direita com a etiqueta da categoria.
+**Validação:** Tente cadastrar uma categoria inexistente (ex: 99). O sistema exibirá um alerta de erro vindo da API.
+**Exclusão:** Selecione uma linha na tabela e clique em "Excluir Item".
