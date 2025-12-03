@@ -1,0 +1,213 @@
+﻿<Window x:Class="GuiEstoque.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestão de Estoque 2.0" Height="600" Width="950"
+        WindowStartupLocation="CenterScreen" Background="#F0F2F5"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <Style x:Key="BtnPrimary" TargetType="Button">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="15,10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1D4ED8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BtnDanger" TargetType="Button">
+            <Setter Property="Background" Value="#DC2626"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="15,8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B91C1C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BtnSecondary" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="1" 
+                                CornerRadius="6" Padding="15,8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F3F4F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="White" Padding="30">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="1" Opacity="0.1" BlurRadius="10"/>
+            </Border.Effect>
+            
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="📦 Novo Produto" FontSize="24" FontWeight="Bold" Foreground="#111827" Margin="0,0,0,25"/>
+
+                <TextBlock Text="Nome do Produto" Foreground="#4B5563" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtNome" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Preço (R$)" Foreground="#4B5563" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtPreco" Margin="0,0,0,20"/>
+
+                <TextBlock Text="ID da Categoria" Foreground="#4B5563" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtCatId" Margin="0,0,0,5"/>
+                <TextBlock Text="1=Hardware, 2=Periféricos, 3=Software" FontSize="11" Foreground="#9CA3AF" Margin="0,0,0,25"/>
+
+                <Button Content="CADASTRAR PRODUTO" Style="{StaticResource BtnPrimary}" Click="BtnSalvar_Click" Height="45"/>
+                
+                <TextBlock x:Name="lblStatus" Text="Sistema Pronto" Foreground="#6B7280" FontSize="12" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,20">
+                <Button Content="🔄 Atualizar" Style="{StaticResource BtnSecondary}" Click="BtnAtualizar_Click" Margin="0,0,10,0"/>
+                <Button Content="🗑 Excluir Item" Style="{StaticResource BtnDanger}" Click="BtnExcluir_Click"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="0" Text="Inventário Atual" FontSize="22" FontWeight="Bold" Foreground="#1F2937" VerticalAlignment="Center"/>
+
+            <DataGrid x:Name="gridDados" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" 
+                      CanUserAddRows="False" Background="White" BorderThickness="0"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E5E7EB"
+                      RowHeight="40" HeadersVisibility="Column">
+                
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="#6B7280"/>
+                        <Setter Property="Padding" Value="10,0,0,10"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Foreground" Value="#374151"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EFF6FF"/>
+                                <Setter Property="Foreground" Value="#1D4ED8"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#2563EB"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="{TemplateBinding Padding}" Background="Transparent">
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="PRODUTO" Binding="{Binding Nome}" Width="*"/>
+                    <DataGridTextColumn Header="PREÇO" Binding="{Binding Preco, StringFormat=R$ {0:N2}}" Width="100" FontWeight="SemiBold"/>
+                    
+                    <DataGridTemplateColumn Header="CATEGORIA" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border x:Name="bdBadge" Background="#EFF6FF" CornerRadius="12" Padding="8,2" HorizontalAlignment="Left">
+                                    <TextBlock x:Name="txtBadge" Text="{Binding NomeCategoria}" Foreground="#2563EB" FontWeight="Bold" FontSize="11"/>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected}" Value="True">
+                                        <Setter TargetName="bdBadge" Property="Background" Value="White"/>
+                                        <Setter TargetName="txtBadge" Property="Foreground" Value="#2563EB"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
